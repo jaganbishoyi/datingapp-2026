@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AccountService } from 'src/core/services/account-service.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ export class AppComponent implements OnInit, OnDestroy {
   protected title = 'Dating App';
   protected members: any;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private accountService: AccountService) {
     console.log('AppComponent initialized');
   }
 
@@ -26,10 +27,18 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('API call completed');
       }
     });
+    this.setCurrentUser();
   }
 
-  trackByMemberId(index: number, member: any): number {
+  trackByMemberId(_: number, member: any): number {
     return member.id;
+  }
+
+  setCurrentUser(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      this.accountService.currentUser = JSON.parse(userJson);
+    }
   }
 
   ngOnDestroy(): void {
