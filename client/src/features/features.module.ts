@@ -7,6 +7,7 @@ import { MemberListComponent } from './members/member-list/member-list.component
 import { MemberDetailedComponent } from './members/member-detailed/member-detailed.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
+import { TestErrorsComponent } from './test-errors/test-errors.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { MessagesComponent } from './messages/messages.component';
     MemberListComponent,
     MemberDetailedComponent,
     ListsComponent,
-    MessagesComponent
+    MessagesComponent,
+    TestErrorsComponent
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +8,8 @@ import { LayoutModule } from 'src/layout/nav/layout.module';
 import { FeaturesModule } from 'src/features/features.module';
 import { InitService } from 'src/core/services/init.service';
 import { lastValueFrom } from 'rxjs';
+import { ErrorInterceptor } from 'src/core/interceptor/error.interceptor';
+import { SharedModule } from 'src/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { lastValueFrom } from 'rxjs';
     AppRoutingModule,
     HttpClientModule,
     LayoutModule,
-    FeaturesModule
+    FeaturesModule,
+    SharedModule
   ],
   providers: [
     {
@@ -36,10 +39,15 @@ import { lastValueFrom } from 'rxjs';
                 }
                 resolve();
               }
-            }, 500);
+            }, 100);
           });
       },
       deps: [InitService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
       multi: true
     }
   ],
